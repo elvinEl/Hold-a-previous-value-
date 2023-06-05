@@ -1,25 +1,63 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/swiper.min.css";
+import SwiperCore, { Autoplay, Pagination, Navigation } from "swiper";
 
-function App() {
+SwiperCore.use([Autoplay, Pagination, Navigation]);
+
+const App = () => {
+  const slideData = [
+    <img src="a.png" alt="" />,
+    <img src="b.png" alt="" />,
+    <img src="ba.png" alt="" />,
+    <img src="g.png" alt="" />,
+    <img src="r.png" alt="" />,
+    <img src="g.png" alt="" />,
+    <img src="a.png" alt="" />,
+  ];
+
+  const [swiper, setSwiper] = useState(null);
+
+  const handleMouseEnter = () => {
+    if (swiper) {
+      swiper.autoplay.stop();
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (swiper) {
+      swiper.autoplay.start();
+    }
+  };
+
+  const handleSwiperInit = (swiperInstance) => {
+    setSwiper(swiperInstance);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <br />
+      <Swiper
+        spaceBetween={30}
+        slidesPerView={3}
+        loop={true}
+        autoplay={{ delay: 2000 }}
+        navigation
+        pagination={{ clickable: true }}
+        onSwiper={handleSwiperInit}
+      >
+        {slideData.map((slide, index) => (
+          <SwiperSlide
+            key={index}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            {slide}
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </>
   );
-}
+};
 
 export default App;
